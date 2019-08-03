@@ -12,10 +12,12 @@ import Cocoa
 class AppDelegate: NSObject, NSApplicationDelegate {
 
     @IBOutlet weak var window: NSWindow!
+    var webview: RadioWKWebView = RadioWKWebView()
 
 
     func applicationDidFinishLaunching(_ aNotification: Notification) {
         // Insert code here to initialize your application
+        switchTo(view: webview)
     }
 
     func applicationWillTerminate(_ aNotification: Notification) {

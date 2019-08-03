@@ -13,6 +13,7 @@
 		66D2425222F52D270042577A /* externalAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66D2425122F52D270042577A /* externalAPI.swift */; };
 		66D2425522F544200042577A /* externalAPI_EVENTS.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66D2425422F544200042577A /* externalAPI_EVENTS.swift */; };
 		66D2425722F547AC0042577A /* flow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66D2425622F547AC0042577A /* flow.swift */; };
+		66DED21922F5668E00E76AF8 /* RadioWKWebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66DED21822F5668E00E76AF8 /* RadioWKWebView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -25,6 +26,7 @@
 		66D2425322F52DFB0042577A /* yandex.radio-demo.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "yandex.radio-demo.entitlements"; sourceTree = "<group>"; };
 		66D2425422F544200042577A /* externalAPI_EVENTS.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = externalAPI_EVENTS.swift; sourceTree = "<group>"; };
 		66D2425622F547AC0042577A /* flow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = flow.swift; sourceTree = "<group>"; };
+		66DED21822F5668E00E76AF8 /* RadioWKWebView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RadioWKWebView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -59,6 +61,7 @@
 			children = (
 				66D2425022F52D150042577A /* api */,
 				66D2424222F52B9D0042577A /* AppDelegate.swift */,
+				66DED21822F5668E00E76AF8 /* RadioWKWebView.swift */,
 				66D2424422F52B9E0042577A /* Assets.xcassets */,
 				66D2424622F52B9E0042577A /* MainMenu.xib */,
 				66D2424922F52B9E0042577A /* Info.plist */,
@@ -154,6 +157,7 @@
 			files = (
 				66D2424322F52B9D0042577A /* AppDelegate.swift in Sources */,
 				66D2425722F547AC0042577A /* flow.swift in Sources */,
+				66DED21922F5668E00E76AF8 /* RadioWKWebView.swift in Sources */,
 				66D2425522F544200042577A /* externalAPI_EVENTS.swift in Sources */,
 				66D2425222F52D270042577A /* externalAPI.swift in Sources */,
 			);
