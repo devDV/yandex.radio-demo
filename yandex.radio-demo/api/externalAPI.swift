@@ -145,84 +145,20 @@ struct apiAdvert {
 }
 
 
-// MARK: CALLBACK EVENTS
-
-enum apiCallbackEvent: String  {
-    case ready = "ready"    // EVENT_READY - готовность данного интерфейса
-    case state = "state"    // EVENT_STATE - изменение состояния плеера
-    case track = "track"    // EVENT_TRACK - смена трека
-    case advert = "advert"  // EVENT_ADVERT - воспроизведение рекламы
-    case controls = "controls" // EVENT_CONTROLS - изменение состояния элементов управления (в т.ч. смены состояния шаффла и повтора треков)
-    case source = "info"    // EVENT_SOURCE_INFO - смена источника воспроизведения
-    case tracks = "tracks"  // EVENT_TRACKS_LIST - изменения списка треков
-    //case volume = "volume"  // EVENT_VOLUME - изменение громкости
-    //case speed = "speed"    // EVENT_SPEED - изменение скорости
-    case progress = "progress" // EVENT_PROGRESS - изменение временных метрик трека
-}
-
-extension apiCallbackEvent : CaseIterable {
-    
-    var name: String {
-        get { return String(describing: self) }
-    }
-    
-    func scriptForInject() -> String {
-        
-        // при каких событиях какую js функцию мы вставляем в callback
-        let dicJSforEvent: [apiCallbackEvent : String] = [
-            .ready : apiGetControlsAvailability,
-            .state : apiFlowIsPlaying,
-            .track : apiGetCurrentTrack,
-            .advert : "event_parameter",
-            .controls : apiGetControlsAvailability,
-            .source : apiGetSourceInfo,
-            .tracks: apiGetPlaylist,
-            //.volume: apiGetVolume,
-            //.speed: apiGetSpeed,
-            .progress : apiGetTrackProgress
-        ]
-        
-        // для использования необходимо заменить
-        // {EVENT} - имя события, {JSFUNCTION} -  функция возвращающая то, что хотим получить в ответ
-        // event_parameter - параметр события, есть только для EVENT_ADVERT
-        let injectScriptTemplate = """
-var {EVENT}F = function (event_parameter) { try {
-    var messageBody = {JSFUNCTION};
-    webkit.messageHandlers.{EVENT}.postMessage(messageBody);
-} catch(err) { console.log('The native context does not exist yet'); } }
-if ("{EVENT}" in externalAPI.__eventCallbacks__) {
-    externalAPI.__eventCallbacks__.{EVENT}.push( {EVENT}F );
-} else {
-    externalAPI.__eventCallbacks__.{EVENT} = [ {EVENT}F ]
-}
-
-"""
-        let script = injectScriptTemplate.replacingOccurrences(of: "{EVENT}", with: self.rawValue)
-            .replacingOccurrences(of: "{JSFUNCTION}", with: dicJSforEvent[self] ?? "event_parameter")
-        return script
-    }
-    
-    static func allScriptsCombined() -> String {
-        
-        let allInjectScriptsCombined = apiCallbackEvent.allCases.reduce("") { (result, event) -> String in
-            let script = event.scriptForInject()
-            return result + "\n" + script
-        }
-        return allInjectScriptsCombined
-    }
-    
-}
-
+// MARK: STRUCTS fromDictionaryInitiatable, CustomStringConvertible
 
 protocol fromDictionaryInitiatable {
     init(from dic: [String: Any?]) throws
 }
 
-extension apiTrackProgress : fromDictionaryInitiatable {
+extension apiTrackProgress : fromDictionaryInitiatable, CustomStringConvertible {
     init(from dic: [String: Any?]) {
         position = dic["position"] as? Double ?? 0.0
         duration = dic["duration"] as? Double ?? 0.0
         loaded = dic["loaded"] as? Double ?? 0.0
+    }
+    var description: String {
+        return "position:\(position.rounded())sec, duration:\(duration.rounded())sec, loaded:\(loaded.rounded())sec"
     }
 }
 
