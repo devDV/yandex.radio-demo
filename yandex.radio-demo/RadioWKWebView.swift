@@ -11,8 +11,21 @@ import WebKit
 class RadioWKWebView : WKWebView {
     
     init() {
+        
+        let scriptSource = apiCallbackEvent.allScriptsCombined()
+        
+        let userScript = WKUserScript(source: scriptSource, injectionTime: .atDocumentEnd, forMainFrameOnly: false)
+        
+        let userContentController = WKUserContentController()
+        userContentController.addUserScript(userScript)
+        
         let config = WKWebViewConfiguration()
+        config.userContentController = userContentController
         super.init(frame: .zero, configuration: config)
+        
+        apiCallbackEvent.allCases.forEach{ (event) in
+            userContentController.add(self, name: event.rawValue)
+        }
         
         let url = URL(string: "https://radio.yandex.ru")!
         let request = URLRequest(url: url)
@@ -45,5 +58,12 @@ extension RadioWKWebView : FlowControl {
     func toggle() {
         let script = apiFlowTogglePlayPause
         evaluateJavaScript(script, completionHandler: nil)
+    }
+}
+
+extension RadioWKWebView : WKScriptMessageHandler {
+    func userContentController(_ userContentController: WKUserContentController, didReceive message: WKScriptMessage) {
+        print(#function + message.name)
+        print(message.body)
     }
 }
