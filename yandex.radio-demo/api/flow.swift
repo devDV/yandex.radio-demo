@@ -10,10 +10,10 @@ import Foundation
 
 protocol FlowControl {
     func toggle()
-    func next()
-    func like()
-    func dislike()
-    func navigate(to: String)
+//    func next()
+//    func like()
+//    func dislike()
+//    func navigate(to: String)
 }
 
 enum FlowSource {
